@@ -44,7 +44,7 @@ public abstract class Player {
     }
 
     private Hand hand;
-    protected Hand getHand() {
+    public Hand getHand() {
         return this.hand;
     }
     public void setHand(Hand value, Location trickLocation) {
