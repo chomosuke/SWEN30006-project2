@@ -63,7 +63,7 @@ public class Whist extends CardGame {
 
     private final String version = "1.0";
     private final int trickWidth = 40;
-    private final Deck deck = new Deck(Suit.values(), Rank.values(), "cover");
+    private final DeterministicDeck deck = new DeterministicDeck(Suit.values(), Rank.values(), "cover");
     private final Location[] handLocations = {
             new Location(350, 625),
             new Location(75, 350),
@@ -85,7 +85,7 @@ public class Whist extends CardGame {
     private Card selected;
 
     private void initRound() {
-        Hand[] hands = deck.dealingOut(nbPlayers, nbStartCards); // Last element of hands is leftover cards; these are ignored
+        Hand[] hands = deck.dealingOutDeterministically(nbPlayers, nbStartCards, random); // Last element of hands is leftover cards; these are ignored
         for (int i = 0; i < nbPlayers; i++) {
             players[i].setHand(hands[i], trickLocation);
         }
