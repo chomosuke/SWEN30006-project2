@@ -78,6 +78,7 @@ public class Whist extends CardGame {
     };
     private final Location trickLocation = new Location(350, 350);
     private final Location textLocation = new Location(350, 450);
+    private Hand[] hands;
     private Location hideLocation = new Location(-500, -500);
     private Location trumpsActorLocation = new Location(50, 50);
     private boolean enforceRules = false;
@@ -85,7 +86,7 @@ public class Whist extends CardGame {
     private Card selected;
 
     private void initRound() {
-        Hand[] hands = deck.dealingOut(nbPlayers, nbStartCards); // Last element of hands is leftover cards; these are ignored
+        hands = deck.dealingOut(nbPlayers, nbStartCards); // Last element of hands is leftover cards; these are ignored
         for (int i = 0; i < nbPlayers; i++) {
             players[i].setHand(hands[i], trickLocation);
         }
@@ -130,7 +131,7 @@ public class Whist extends CardGame {
             winner = nextPlayer;
             winningCard = selected;
             System.out.println("New trick: Lead Player = " + nextPlayer + ", Lead suit = " + selected.getSuit() + ", Trump suit = " + trumps);
-            System.out.println("Player " + nextPlayer + " play: " + selected.toString() + " from [" + printHand(players[nextPlayer].getHand().getCardList()) + "]");
+            System.out.println("Player " + nextPlayer + " play: " + selected.toString() + " from [" + printHand(hands[nextPlayer].getCardList()) + "]");
             // End Lead
             for (int j = 1; j < nbPlayers; j++) {
                 if (++nextPlayer >= nbPlayers) nextPlayer = 0;  // From last back to first
@@ -141,7 +142,7 @@ public class Whist extends CardGame {
                 trick.draw();
                 selected.setVerso(false);  // In case it is upside down
                 // Check: Following card must follow suit if possible
-                if (selected.getSuit() != lead && players[nextPlayer].getHand().getNumberOfCardsWithSuit(lead) > 0) {
+                if (selected.getSuit() != lead && hands[nextPlayer].getNumberOfCardsWithSuit(lead) > 0) {
                     // Rule violation
                     String violation = "Follow rule broken by player " + nextPlayer + " attempting to play " + selected;
                     //System.out.println(violation);
@@ -157,7 +158,7 @@ public class Whist extends CardGame {
                 // End Check
                 selected.transfer(trick, true); // transfer to trick (includes graphic effect)
                 System.out.println("Winning card: " + winningCard.toString());
-                System.out.println("Player " + nextPlayer + " play: " + selected.toString() + " from [" + printHand(players[nextPlayer].getHand().getCardList()) + "]");
+                System.out.println("Player " + nextPlayer + " play: " + selected.toString() + " from [" + printHand(hands[nextPlayer].getCardList()) + "]");
                 if ( // beat current winner with higher card
                         (selected.getSuit() == winningCard.getSuit() && rankGreater(selected, winningCard)) ||
                                 // trumped when non-trump was winning
