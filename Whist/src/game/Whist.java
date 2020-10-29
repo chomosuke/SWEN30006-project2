@@ -8,6 +8,8 @@ import game.player.NPCPlayer;
 import game.player.Player;
 import game.selector.ISelector;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.util.*;
 //import java.util.concurrent.ThreadLocalRandom;
 
@@ -62,6 +64,7 @@ public class Whist extends CardGame {
     }
 
     private final String version = "1.0";
+    private final int handWidth = 400;
     private final int trickWidth = 40;
     private final Deck deck = new Deck(Suit.values(), Rank.values(), "cover");
     private final Location[] handLocations = {
@@ -88,7 +91,17 @@ public class Whist extends CardGame {
     private void initRound() {
         hands = deck.dealingOut(nbPlayers, nbStartCards); // Last element of hands is leftover cards; these are ignored
         for (int i = 0; i < nbPlayers; i++) {
-            players[i].setHand(hands[i], trickLocation);
+            hands[i].sort(Hand.SortType.SUITPRIORITY, true);
+
+            players[i].setHand(hands[i]);
+
+            // graphics
+            RowLayout layout = new RowLayout(handLocations[i], handWidth);
+            layout.setRotationAngle(90 * i);
+            // layouts[i].setStepDelay(10);
+            hands[i].setView(this, layout);
+            hands[i].setTargetArea(new TargetArea(trickLocation));
+            hands[i].draw();
         }
 
 //	    for (int i = 1; i < nbPlayers; i++)  // This code can be used to visually hide the cards in a hand (make them face down)
@@ -97,12 +110,12 @@ public class Whist extends CardGame {
     }
 
     private String printHand(ArrayList<Card> cards) {
-        StringBuilder out = new StringBuilder();
+        String out = "";
         for (int i = 0; i < cards.size(); i++) {
-            out.append(cards.get(i).toString());
-            if (i < cards.size() - 1) out.append(",");
+            out += cards.get(i).toString();
+            if (i < cards.size() - 1) out += ",";
         }
-        return (out.toString());
+        return (out);
     }
 
     private Optional<Integer> playRound() {  // Returns winner, if any
@@ -118,7 +131,6 @@ public class Whist extends CardGame {
         int nextPlayer = random.nextInt(nbPlayers); // randomly select player to lead for this round
         for (int i = 0; i < nbStartCards; i++) {
             trick = new Hand(deck);
-
             selected = players[nextPlayer].selectCard(new GameInfo(trumps, trick.getCardList()));
 
             // Lead with selected card
@@ -258,6 +270,9 @@ public class Whist extends CardGame {
                     throw new IllegalArgumentException("can't recognize player" + i + "Type");
             }
         }
+
+
+
 
         assert (nbPlayers > 1);
         assert (nbStartCards > 1);

@@ -1,9 +1,12 @@
 package game.player;
 
-import ch.aplu.jcardgame.*;
+import ch.aplu.jcardgame.Card;
+import ch.aplu.jcardgame.Hand;
+import ch.aplu.jgamegrid.GameGrid;
 import ch.aplu.jgamegrid.Location;
 import ch.aplu.jgamegrid.TextActor;
 import game.GameInfo;
+import org.w3c.dom.Text;
 
 import java.awt.*;
 
@@ -12,17 +15,14 @@ public abstract class Player {
 
     private Font bigFont = new Font("Serif", Font.BOLD, 36);
     protected final int thinkingTime = 2000;
-    private final int handWidth = 400;
 
-    protected final CardGame cardGame;
-    private final Location handLocation;
-    private final Location scoreLocation;
+    protected final GameGrid gameGrid;
     protected final int playerNum;
-    public Player (CardGame cardGame, Location handLocation, Location scoreLocation, int playerNum) {
-        this.cardGame = cardGame;
-        this.handLocation = handLocation;
-        this.scoreLocation = scoreLocation;
+    private final Location scoreLocation;
+    public Player (GameGrid gameGrid, Location handLocation, Location scoreLocation, int playerNum) {
+        this.gameGrid = gameGrid;
         this.playerNum = playerNum;
+        this.scoreLocation = scoreLocation;
         initScore();
     }
 
@@ -32,33 +32,23 @@ public abstract class Player {
     }
     public void setScore(int value) {
         score = value;
-        cardGame.removeActor(scoreActor);
-        scoreActor = new TextActor(String.valueOf(score), Color.WHITE, cardGame.bgColor, bigFont);
-        cardGame.addActor(scoreActor, scoreLocation);
+        gameGrid.removeActor(scoreActor);
+        scoreActor = new TextActor(String.valueOf(score), Color.WHITE, gameGrid.bgColor, bigFont);
+        gameGrid.addActor(scoreActor, scoreLocation);
     }
 
     private TextActor scoreActor;
     private void initScore() {
-        scoreActor = new TextActor("0", Color.WHITE, cardGame.bgColor, bigFont);
-        cardGame.addActor(scoreActor, scoreLocation);
+        scoreActor = new TextActor("0", Color.WHITE, gameGrid.bgColor, bigFont);
+        gameGrid.addActor(scoreActor, scoreLocation);
     }
 
     private Hand hand;
+    public void setHand(Hand value) {
+        this.hand = value;
+    }
     protected Hand getHand() {
         return this.hand;
-    }
-    public void setHand(Hand value, Location trickLocation) {
-        this.hand = value;
-
-        hand.sort(Hand.SortType.SUITPRIORITY, true);
-
-        // graphics
-        RowLayout layout = new RowLayout(handLocation, handWidth);
-        layout.setRotationAngle(90 * playerNum);
-        // layouts[i].setStepDelay(10);
-        hand.setView(cardGame, layout);
-        hand.setTargetArea(new TargetArea(trickLocation));
-        hand.draw();
     }
 
     public abstract Card selectCard(GameInfo gameInfo);
