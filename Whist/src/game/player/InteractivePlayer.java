@@ -11,8 +11,8 @@ import game.GameInfo;
 import static ch.aplu.jgamegrid.GameGrid.delay;
 
 public class InteractivePlayer extends Player {
-    public InteractivePlayer(GameGrid gameGrid, Location handLocation, Location scoreLocation, int playerNum) {
-        super(gameGrid, handLocation, scoreLocation, playerNum);
+    public InteractivePlayer(GameGrid gameGrid, Location scoreLocation, int playerNum) {
+        super(gameGrid, scoreLocation, playerNum);
     }
 
     private Card selected;

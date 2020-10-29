@@ -261,10 +261,10 @@ public class Whist extends CardGame {
                     IFilterer filterer = StrategyFactory.getInstance().getFilterer(
                             properties.getProperty("player" + i + "Filterer")
                     );
-                    players[i] = new NPCPlayer(selector, filterer, this, handLocations[i], scoreLocations[i], i);
+                    players[i] = new NPCPlayer(selector, filterer, this, scoreLocations[i], i);
                     break;
                 case "interactive":
-                    players[i] = new InteractivePlayer(this, handLocations[i], scoreLocations[i], i);
+                    players[i] = new InteractivePlayer(this, scoreLocations[i], i);
                     break;
                 default:
                     throw new IllegalArgumentException("can't recognize player" + i + "Type");

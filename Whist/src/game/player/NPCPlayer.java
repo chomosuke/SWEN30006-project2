@@ -12,8 +12,8 @@ public class NPCPlayer extends Player {
     private final IFilterer filterer;
 
     public NPCPlayer (ISelector selector, IFilterer filterer,
-                      GameGrid gameGrid, Location handLocation, Location scoreLocation, int playerNum) {
-        super(gameGrid, handLocation, scoreLocation, playerNum);
+                      GameGrid gameGrid, Location scoreLocation, int playerNum) {
+        super(gameGrid, scoreLocation, playerNum);
         this.selector = selector;
         this.filterer = filterer;
     }

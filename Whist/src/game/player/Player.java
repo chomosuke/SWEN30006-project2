@@ -19,7 +19,7 @@ public abstract class Player {
     protected final GameGrid gameGrid;
     protected final int playerNum;
     private final Location scoreLocation;
-    public Player (GameGrid gameGrid, Location handLocation, Location scoreLocation, int playerNum) {
+    public Player (GameGrid gameGrid, Location scoreLocation, int playerNum) {
         this.gameGrid = gameGrid;
         this.playerNum = playerNum;
         this.scoreLocation = scoreLocation;
