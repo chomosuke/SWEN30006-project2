@@ -11,18 +11,18 @@ import game.selector.SmartSelector;
 
 import java.util.HashMap;
 
-public class StrategyFactory {
+public class FiltererSelectorFactory {
 
-    private static StrategyFactory instance;
+    private static FiltererSelectorFactory instance;
 
-    public static StrategyFactory getInstance() {
+    public static FiltererSelectorFactory getInstance() {
         if (instance == null) {
-            instance = new StrategyFactory();
+            instance = new FiltererSelectorFactory();
         }
         return instance;
     }
 
-    private StrategyFactory() {
+    private FiltererSelectorFactory() {
         filtererMap.put("nothing", new NothingFilterer());
         filtererMap.put("naive legal", new NaiveLegalFilterer());
         filtererMap.put("trump saving", new TrumpSavingFilterer());

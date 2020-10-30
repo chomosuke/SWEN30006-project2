@@ -242,10 +242,10 @@ public class Whist extends CardGame {
         for (int i = 0; i < players.length; i++) {
             switch (properties.getProperty("player" + i + "Type")) {
                 case "NPC":
-                    ISelector selector = StrategyFactory.getInstance().getSelector(
+                    ISelector selector = FiltererSelectorFactory.getInstance().getSelector(
                             properties.getProperty("player" + i + "Selector")
                     );
-                    IFilterer filterer = StrategyFactory.getInstance().getFilterer(
+                    IFilterer filterer = FiltererSelectorFactory.getInstance().getFilterer(
                             properties.getProperty("player" + i + "Filterer")
                     );
                     players[i] = new NPCPlayer(selector, filterer, this, handLocations[i], scoreLocations[i], i);
