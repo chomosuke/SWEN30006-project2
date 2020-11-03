@@ -9,12 +9,13 @@ import game.filterer.IFilterer;
 import game.selector.ISelector;
 
 public class NPCPlayer extends Player {
+    private final int thinkingTime = 2000;
     private final ISelector selector;
     private final IFilterer filterer;
 
     public NPCPlayer (ISelector selector, IFilterer filterer,
-                      CardGame gameGrid, Location handLocation, Location scoreLocation, int playerNum) {
-        super(gameGrid, handLocation, scoreLocation, playerNum);
+                      CardGame gameGrid, Location scoreLocation, int playerNum) {
+        super(gameGrid, scoreLocation, playerNum);
         this.selector = selector;
         this.filterer = filterer;
     }

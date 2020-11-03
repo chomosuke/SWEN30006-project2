@@ -11,16 +11,12 @@ import java.awt.*;
 public abstract class Player {
 
     private Font bigFont = new Font("Serif", Font.BOLD, 36);
-    protected final int thinkingTime = 2000;
-    private final int handWidth = 400;
 
     protected final CardGame cardGame;
-    private final Location handLocation;
     private final Location scoreLocation;
     protected final int playerNum;
-    public Player (CardGame cardGame, Location handLocation, Location scoreLocation, int playerNum) {
+    public Player (CardGame cardGame, Location scoreLocation, int playerNum) {
         this.cardGame = cardGame;
-        this.handLocation = handLocation;
         this.scoreLocation = scoreLocation;
         this.playerNum = playerNum;
         initScore();
@@ -49,16 +45,6 @@ public abstract class Player {
     }
     public void setHand(Hand value, Location trickLocation) {
         this.hand = value;
-
-        hand.sort(Hand.SortType.SUITPRIORITY, true);
-
-        // graphics
-        RowLayout layout = new RowLayout(handLocation, handWidth);
-        layout.setRotationAngle(90 * playerNum);
-        // layouts[i].setStepDelay(10);
-        hand.setView(cardGame, layout);
-        hand.setTargetArea(new TargetArea(trickLocation));
-        hand.draw();
     }
 
     public abstract Card selectCard(GameInfo gameInfo);

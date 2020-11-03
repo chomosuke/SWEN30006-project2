@@ -81,13 +81,24 @@ public class Whist extends CardGame {
     private Location hideLocation = new Location(-500, -500);
     private Location trumpsActorLocation = new Location(50, 50);
     private boolean enforceRules = false;
+    private final int handWidth = 400;
 
     private Card selected;
 
     private void initRound() {
         Hand[] hands = deck.dealingOutDeterministically(nbPlayers, nbStartCards, random); // Last element of hands is leftover cards; these are ignored
         for (int i = 0; i < nbPlayers; i++) {
+            hands[i].sort(Hand.SortType.SUITPRIORITY, true);
+
             players[i].setHand(hands[i], trickLocation);
+
+            // graphics
+            RowLayout layout = new RowLayout(handLocations[i], handWidth);
+            layout.setRotationAngle(90 * i);
+            // layouts[i].setStepDelay(10);
+            hands[i].setView(this, layout);
+            hands[i].setTargetArea(new TargetArea(trickLocation));
+            hands[i].draw();
         }
 
 //	    for (int i = 1; i < nbPlayers; i++)  // This code can be used to visually hide the cards in a hand (make them face down)
@@ -248,10 +259,10 @@ public class Whist extends CardGame {
                     IFilterer filterer = FiltererSelectorFactory.getInstance().getFilterer(
                             properties.getProperty("player" + i + "Filterer")
                     );
-                    players[i] = new NPCPlayer(selector, filterer, this, handLocations[i], scoreLocations[i], i);
+                    players[i] = new NPCPlayer(selector, filterer, this, scoreLocations[i], i);
                     break;
                 case "interactive":
-                    players[i] = new InteractivePlayer(this, handLocations[i], scoreLocations[i], i);
+                    players[i] = new InteractivePlayer(this, scoreLocations[i], i);
                     break;
                 default:
                     throw new IllegalArgumentException("can't recognize player" + i + "Type");
