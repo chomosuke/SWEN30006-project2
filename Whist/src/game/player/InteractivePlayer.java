@@ -16,8 +16,8 @@ public class InteractivePlayer extends Player {
     private Card selected;
 
     @Override
-    public void setHand(Hand value, Location trickLocation) {
-        super.setHand(value, trickLocation);
+    public void setHand(Hand value) {
+        super.setHand(value);
         CardListener cardListener = new CardAdapter()  // Human Player plays card
         {
             public void leftDoubleClicked(Card card) {

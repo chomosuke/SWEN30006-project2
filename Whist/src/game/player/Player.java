@@ -43,7 +43,7 @@ public abstract class Player {
     public Hand getHand() {
         return this.hand;
     }
-    public void setHand(Hand value, Location trickLocation) {
+    public void setHand(Hand value) {
         this.hand = value;
     }
 

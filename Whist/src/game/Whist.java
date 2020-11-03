@@ -90,7 +90,7 @@ public class Whist extends CardGame {
         for (int i = 0; i < nbPlayers; i++) {
             hands[i].sort(Hand.SortType.SUITPRIORITY, true);
 
-            players[i].setHand(hands[i], trickLocation);
+            players[i].setHand(hands[i]);
 
             // graphics
             RowLayout layout = new RowLayout(handLocations[i], handWidth);
