@@ -8,6 +8,7 @@ import game.player.NPCPlayer;
 import game.player.Player;
 import game.selector.ISelector;
 
+import java.awt.*;
 import java.util.*;
 //import java.util.concurrent.ThreadLocalRandom;
 
@@ -62,6 +63,7 @@ public class Whist extends CardGame {
     }
 
     private final String version = "1.0";
+    private final int handWidth = 400;
     private final int trickWidth = 40;
     private final DeterministicDeck deck = new DeterministicDeck(Suit.values(), Rank.values(), "cover");
     private final Location[] handLocations = {
@@ -76,12 +78,27 @@ public class Whist extends CardGame {
             new Location(575, 25),
             new Location(650, 575)
     };
+    private Actor[] scoreActors = {null, null, null, null};
     private final Location trickLocation = new Location(350, 350);
     private final Location textLocation = new Location(350, 450);
     private Location hideLocation = new Location(-500, -500);
     private Location trumpsActorLocation = new Location(50, 50);
     private boolean enforceRules = false;
-    private final int handWidth = 400;
+
+    private void initScoreActors() {
+        for (int i = 0; i < nbPlayers; i++) {
+            scoreActors[i] = new TextActor("0", Color.WHITE, bgColor, bigFont);
+            addActor(scoreActors[i], scoreLocations[i]);
+        }
+    }
+
+    private void updateScoreActor(int index) {
+        removeActor(scoreActors[index]);
+        scoreActors[index] = new TextActor(String.valueOf(players[index].getScore()), Color.WHITE, bgColor, bigFont);
+        addActor(scoreActors[index], scoreLocations[index]);
+    }
+
+    private Font bigFont = new Font("Serif", Font.BOLD, 36);
 
     private Card selected;
 
@@ -185,6 +202,7 @@ public class Whist extends CardGame {
             System.out.println("Winner: " + winner);
             setStatusText("Player " + nextPlayer + " wins trick.");
             players[nextPlayer].setScore(players[nextPlayer].getScore() + 1);
+            updateScoreActor(nextPlayer);
             if (winningScore == players[nextPlayer].getScore()) return Optional.of(nextPlayer);
         }
         removeActor(trumpsActor);
@@ -215,6 +233,7 @@ public class Whist extends CardGame {
 
         setTitle("Whist (V" + version + ") Constructed for UofM SWEN30006 with JGameGrid (www.aplu.ch)");
         setStatusText("Initializing...");
+        initScoreActors();
         Optional<Integer> winner;
         do {
             initRound();
@@ -259,10 +278,10 @@ public class Whist extends CardGame {
                     IFilterer filterer = FiltererSelectorFactory.getInstance().getFilterer(
                             properties.getProperty("player" + i + "Filterer")
                     );
-                    players[i] = new NPCPlayer(selector, filterer, this, scoreLocations[i], i);
+                    players[i] = new NPCPlayer(selector, filterer, this, i);
                     break;
                 case "interactive":
-                    players[i] = new InteractivePlayer(this, scoreLocations[i], i);
+                    players[i] = new InteractivePlayer(this, i);
                     break;
                 default:
                     throw new IllegalArgumentException("can't recognize player" + i + "Type");

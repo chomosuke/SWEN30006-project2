@@ -10,16 +10,11 @@ import java.awt.*;
 // a Player store it's score and hand and select a card
 public abstract class Player {
 
-    private Font bigFont = new Font("Serif", Font.BOLD, 36);
-
     protected final CardGame cardGame;
-    private final Location scoreLocation;
     protected final int playerNum;
-    public Player (CardGame cardGame, Location scoreLocation, int playerNum) {
+    public Player (CardGame cardGame, int playerNum) {
         this.cardGame = cardGame;
-        this.scoreLocation = scoreLocation;
         this.playerNum = playerNum;
-        initScore();
     }
 
     private int score = 0;
@@ -28,15 +23,6 @@ public abstract class Player {
     }
     public void setScore(int value) {
         score = value;
-        cardGame.removeActor(scoreActor);
-        scoreActor = new TextActor(String.valueOf(score), Color.WHITE, cardGame.bgColor, bigFont);
-        cardGame.addActor(scoreActor, scoreLocation);
-    }
-
-    private TextActor scoreActor;
-    private void initScore() {
-        scoreActor = new TextActor("0", Color.WHITE, cardGame.bgColor, bigFont);
-        cardGame.addActor(scoreActor, scoreLocation);
     }
 
     private Hand hand;

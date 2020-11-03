@@ -9,8 +9,8 @@ import static ch.aplu.jgamegrid.GameGrid.delay;
 public class InteractivePlayer extends Player {
     protected final int thinkingTime = 2000;
 
-    public InteractivePlayer(CardGame gameGrid, Location scoreLocation, int playerNum) {
-        super(gameGrid, scoreLocation, playerNum);
+    public InteractivePlayer(CardGame gameGrid, int playerNum) {
+        super(gameGrid, playerNum);
     }
 
     private Card selected;
