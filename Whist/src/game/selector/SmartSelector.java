@@ -24,12 +24,12 @@ public class SmartSelector implements ISelector {
 
         // see whether it can win or not
         
-        ArrayList<Card> trumpCards = new TrumpFilterer().filter(cards, gameInfo);
-        chosen = new HighestRankSelector().select(trumpCards, gameInfo);
+        ArrayList<Card> leadCards = new LeadFilterer().filter(cards, gameInfo);
+        chosen = new HighestRankSelector().select(leadCards, gameInfo);
 
         if (chosen == null) { // means HighestRankSelector had empty hand to select from
-            ArrayList<Card> leadCards = new LeadFilterer().filter(cards, gameInfo);
-            chosen = new HighestRankSelector().select(leadCards, gameInfo);
+            ArrayList<Card> trumpCards = new TrumpFilterer().filter(cards, gameInfo);
+            chosen = new HighestRankSelector().select(trumpCards, gameInfo);
         }
 
         if (chosen == null) { // no trump or lead card available
