@@ -17,7 +17,7 @@ public class SmartSelector implements ISelector {
         // check if player is taking the lead
         if (gameInfo.getPlayed().isEmpty()) {
             // chose highest rank to maximize winning chances
-            new HighestRankSelector().select(cards, gameInfo);
+            return new HighestRankSelector().select(cards, gameInfo);
         }
 
         Card chosen;
