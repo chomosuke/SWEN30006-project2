@@ -7,7 +7,6 @@ import game.GameInfo;
 import static ch.aplu.jgamegrid.GameGrid.delay;
 
 public class InteractivePlayer extends Player {
-    protected final int thinkingTime = 2000;
 
     public InteractivePlayer(CardGame gameGrid, int playerNum) {
         super(gameGrid, playerNum);
